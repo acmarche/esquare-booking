@@ -28,15 +28,13 @@
                     </svg>
                 </button>
             </div>
+
             <div class="cal-weekdays text-muted">
-                <div class="cal-weekday">Sun</div>
-                <div class="cal-weekday">Mon</div>
-                <div class="cal-weekday">Tue</div>
-                <div class="cal-weekday">Wed</div>
-                <div class="cal-weekday">Thu</div>
-                <div class="cal-weekday">Fri</div>
-                <div class="cal-weekday">Sat</div>
+                {% for weekday in weekdays %}
+                    <div class="cal-weekday">{{ weekday }}</div>
+                {% endfor %}
             </div>
+
             <div class="cal-days">
                 <button class="btn cal-btn" disabled="" type="button">30</button>
                 <button class="btn cal-btn" disabled="" type="button">31</button>

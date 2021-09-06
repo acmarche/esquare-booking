@@ -16,24 +16,7 @@ class DateProvider
      */
     public function weekDaysName(): array
     {
-        //todo dynamic first day of week
-        //https://carbon.nesbot.com/docs/#api-week
-        //$en->firstWeekDay); != $fr->firstWeekDay);
-
-        /*  $days = [];
-      /*  $translator = \Carbon\Translator::get(
-              LocalHelper::getDefaultLocal()
-          );
-
-          foreach (Carbon::getDays() as $day) {
-              $days[] = $translator->trans($day);
-          }*/
-        $days = Carbon::getDays();
-        //if lundi first, on pousse dimanche a la fin
-        $days[] = $days[0];
-        unset($days[0]);
-
-        return $days;
+        return ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
     }
 
     /**
