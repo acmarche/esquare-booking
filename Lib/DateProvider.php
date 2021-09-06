@@ -19,12 +19,24 @@ class DateProvider
         return ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
     }
 
-    /**
-     * @return int[]
-     */
-    public function getHours(): array
+    public function monthName(DateTimeInterface $date)
     {
-        return range(1, CarbonInterface::HOURS_PER_DAY);
+        $months = [
+            1 => 'Janvier',
+            'Février',
+            'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juiller',
+            'Août',
+            'Septembre',
+            'Octobre',
+            'Novembre',
+            'Décembre',
+        ];
+
+        return $months[$date->format('n')];
     }
 
     public function daysOfMonth(DateTimeInterface $date): CarbonPeriod

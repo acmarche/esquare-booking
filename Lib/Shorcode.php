@@ -9,13 +9,14 @@ class Shorcode
     public function __construct()
     {
         add_shortcode('calendar_jf', function () {
-            $twig = new Twig();
             $dateProvider = new DateProvider();
-            $today = new \DateTime();
-            $weeks = $dateProvider->weeksOfMonth($today);
+            $dateSelected = new \DateTime();
+            $weeks = $dateProvider->weeksOfMonth($dateSelected);
             $entries = $this->getEntries();
+            $monthName = $dateProvider->monthName($dateSelected);
 
-            return $twig->render('_calendar.html.twig', [
+            return Twig::rendPage('_calendar.html.twig', [
+                'monthName' => $monthName,
                 'weeks' => $weeks,
                 'weekdays' => $dateProvider->weekDaysName(),
                 'entries' => $entries,
@@ -23,14 +24,21 @@ class Shorcode
         });
     }
 
-    private function getEntries()
+    private function getEntries(): array
     {
         global $post;
         $post_slug = $post->post_name;
         $room = BookingJf::getRoomNumber($post_slug);
         $repository = new EntryRepository();
-        $json = $repository->getEntries($room);
+        try {
+            $json = $repository->getEntries($room);
 
-        return json_decode($json);
+            return json_decode($json);
+
+        } catch (\Exception $e) {
+            wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
+
+            return [];
+        }
     }
 }

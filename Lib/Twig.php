@@ -51,38 +51,34 @@ class Twig
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\LoaderError
      */
-    public function render(string $templatePath, array $variables):string
+    public function render(string $templatePath, array $variables): string
     {
         $twig = self::LoadTwig();
+
         return $twig->render(
             $templatePath,
             $variables,
         );
     }
 
-    public static function rendPage(string $templatePath, array $variables = [])
+    public static function rendPage(string $templatePath, array $variables = []): string
     {
         $twig = self::LoadTwig();
         try {
-            echo $twig->render(
+            return $twig->render(
                 $templatePath,
                 $variables,
             );
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            echo $twig->render(
-                'errors/500.html.twig',
-                [
-                    'message' => $e->getMessage(),
-                    'title' => "La page n'a pas pu être chargée",
-                    'tags' => [],
+            wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
 
-                    'relations' => [],
+            return $twig->render(
+                '_error_500.html.twig',
+                [
+
                 ]
             );
-
-
         }
-
     }
 
 
