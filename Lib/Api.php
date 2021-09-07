@@ -62,7 +62,7 @@ class Api
             function () {
                 register_rest_route(
                     'booking',
-                    'calendar/(?P<date>[\w-]+)/(?P<room>[\d]+/(?P<action>[\d]+)',
+                    'calendar/(?P<date>[\w-]+)/(?P<room>[\d]+)/(?P<action>[\d]+)',
                     [
                         'methods' => 'GET',
                         'args' => array(
@@ -77,11 +77,18 @@ class Api
                             ),
                         ),
                         'callback' => function ($request) {
-                            $date = $request->get_param('date');
+                            $dateSelected = \DateTime::createFromFormat('Y-m-d', $request->get_param('date'));
                             $room = $request->get_param('room');
                             $action = $request->get_param('action');
 
-                            return $date.$room.$action;
+                            if ($action == 2) {
+                                $dateSelected->modify('+1 month');
+                            } else {
+                                $dateSelected->modify('-1 month');
+                            }
+
+                            $render = new Render();
+                            return $render->renderCalendar($dateSelected, $room);
                         },
                     ]
                 );
