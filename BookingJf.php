@@ -14,6 +14,7 @@
 
 namespace AcMarche\Booking;
 
+use AcMarche\Booking\Lib\Api;
 use AcMarche\Booking\Lib\Asset;
 use AcMarche\Booking\Lib\Shorcode;
 
@@ -32,6 +33,7 @@ class BookingJf
     {
         new Asset();
         new Shorcode();
+        new Api();
     }
 
     public static function getRoomNumber(string $slug): int

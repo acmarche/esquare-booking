@@ -39,6 +39,22 @@ class EntryRepository
         }
     }
 
+    public function getEntriesByDay(string $date, string $slug): array
+    {
+        $room = BookingJf::getRoomNumber($slug);
+
+        try {
+            $json = $this->getRemoteEntriesByDate($date, $room);
+
+            return json_decode($json);
+
+        } catch (\Exception $e) {
+            wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
+
+            return [];
+        }
+    }
+
     /**
      * @return string|null
      * @throws \Exception
@@ -50,6 +66,24 @@ class EntryRepository
             $request = $this->httpClient->request(
                 'GET',
                 $this->url.'/entries/'.$room,
+                [
+                    'query' => $params,
+                ]
+            );
+
+            return $this->getContent($request);
+        } catch (TransportExceptionInterface $e) {
+            throw  new \Exception($e->getMessage());
+        }
+    }
+
+    public function getRemoteEntriesByDate(string $date, int $room)
+    {
+        $params = ['date' => $date, 'room' => $room];
+        try {
+            $request = $this->httpClient->request(
+                'GET',
+                $this->url.'/entries/'.$date.'/'.$room,
                 [
                     'query' => $params,
                 ]

@@ -41,11 +41,11 @@
                         {% set key = day.toDateString %}
                         {% set data = dataDays[key] %} <!-- phpstorm -->
                         {% if data.entries|length > 0 %}
-                            <button class="btn cal-btn bg-info"
+                            <button class="btn cal-btn bg-info bookingclick"
                                     type="button"
                                     data-bs-toggle="modal"
                                     data-bs-target="#infoModal"
-                                    data-bs-day="{{ day.year }}-{{ day.month }}-{{ day.day }}">
+                                    data-day="{{ day.year }}-{{ day.month }}-{{ day.day }}">
                                 {{ day.day }}
                             </button>
                         {% else %}
@@ -58,3 +58,27 @@
     </div>
 </div>
 {% include '_modal.html.twig' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var btns = document.querySelectorAll('.bookingclick');
+        Array.prototype.forEach.call(btns, function (el, i) {
+            el.addEventListener('click', () => {
+                console.log('click ' + el.dataset.day);
+                getEntries(el.dataset.day);
+            });
+        });
+    });
+
+    async function getEntries(date) {
+        const params = new URLSearchParams({
+            date: date,
+        });
+
+        const url = `wp-json/booking/entries/`;
+        const response = await fetch(`${url}?${params.toString()}`);
+        let data = await response.text();
+        console.log(data);
+        // document.querySelector("#classements").html(data);
+    }
+
+</script>
