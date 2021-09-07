@@ -14,3 +14,27 @@ async function getEntries(date, room) {
     let dataJson = await response.text();
     document.querySelector("#contentmodal").innerHTML = JSON.parse(dataJson);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.querySelector('#btn-previous');
+    btn.addEventListener('click', () => {
+        console.log('click previous' + btn.dataset.month);
+        getCalendar(btn.dataset.day, btn.dataset.room, 'previous');
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.querySelector('#btn-next');
+    btn.addEventListener('click', () => {
+        console.log('click next' + btn.dataset.month);
+        getCalendar(btn.dataset.day, btn.dataset.room, 'next');
+    });
+});
+
+async function getCalendar(date, room, action) {
+    const url = `/wp-json/booking/calendar/${date}/${room}/${action}`;
+    const response = await fetch(url);
+    let dataJson = await response.text();
+    console.log(dataJson);
+   // document.querySelector("#contentmodal").innerHTML = JSON.parse(dataJson);
+}

@@ -49,7 +49,39 @@ class Api
                                     'H:i'
                                 );
                             }, $entries);
+
                             return Twig::rendPage('_list.html.twig', ['entries' => $entries]);
+                        },
+                    ]
+                );
+            }
+        );
+
+        add_action(
+            'rest_api_init',
+            function () {
+                register_rest_route(
+                    'booking',
+                    'calendar/(?P<date>[\w-]+)/(?P<room>[\d]+/(?P<action>[\d]+)',
+                    [
+                        'methods' => 'GET',
+                        'args' => array(
+                            'date' => array(
+                                'required' => true,
+                            ),
+                            'room' => array(
+                                'required' => true,
+                            ),
+                            'action' => array(
+                                'required' => true,
+                            ),
+                        ),
+                        'callback' => function ($request) {
+                            $date = $request->get_param('date');
+                            $room = $request->get_param('room');
+                            $action = $request->get_param('action');
+
+                            return $date.$room.$action;
                         },
                     ]
                 );

@@ -36,6 +36,7 @@ class Shorcode
                 'weekdays' => $dateProvider->weekDaysName(),
                 'dataDays' => $dataDays,
                 'room' => $room,
+                'dateSelected' => $dateSelected,
             ]);
         });
     }
