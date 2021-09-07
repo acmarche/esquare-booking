@@ -21,9 +21,12 @@ class Render
     public function renderBooking(\DateTimeInterface $dateSelected, int $room): string
     {
         $calendar = $this->renderCalendar($dateSelected, $room);
+        $repository = new EntryRepository();
+        $form = $repository->getRemoteForm();
 
         return Twig::rendPage('booking.html.twig', [
             'calendar' => $calendar,
+            'form' => $form,
         ]);
     }
 

@@ -91,6 +91,27 @@ class EntryRepository
     }
 
     /**
+     * @return string|null
+     * @throws \Exception
+     */
+    public function getRemoteForm(): ?string
+    {
+        try {
+            $request = $this->httpClient->request(
+                'GET',
+                $this->url.'/form',
+                [
+
+                ]
+            );
+
+            return $this->getContent($request);
+        } catch (TransportExceptionInterface $e) {
+            throw  new \Exception($e->getMessage());
+        }
+    }
+
+    /**
      * @throws \Exception
      */
     public function requestGet(string $url, array $options = []): ?string

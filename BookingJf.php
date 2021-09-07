@@ -29,6 +29,13 @@ class BookingJf
         2379 => 5,//digital
     ];
 
+    public static array $horaires = [
+        '9h à 13h' => 1,
+        '9h à 17h' => 2,
+        '13h à 17h' => 3,
+        '18h à 22h' => 4,
+    ];
+
     public function __construct()
     {
         new Asset();

@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var btns = document.querySelectorAll('.bookingclick');
+    var btns = document.querySelectorAll('.bookingclick22');
     Array.prototype.forEach.call(btns, function (el, i) {
         el.addEventListener('click', () => {
             console.log('click ' + el.dataset.day);
-            getEntries(el.dataset.day, el.dataset.room);
+          //  getEntries(el.dataset.day, el.dataset.room);
         });
     });
 });
