@@ -24,6 +24,13 @@ class Asset
                 wp_get_theme()->get('Version')
             );
 
+    /*        wp_enqueue_style(
+                'marchebe-bs5-css',
+                plugin_dir_url(__DIR__).'assets/bs5.css',
+                array(),
+                wp_get_theme()->get('Version')
+            );*/
+
             wp_enqueue_script(
                 'marchebe-bootstrap-js',
                 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js',
@@ -33,7 +40,7 @@ class Asset
             );
 
             wp_enqueue_script(
-                'marchebe-bootstrap-js',
+                'marchebe-calendar-js',
                 plugin_dir_url(__DIR__).'assets/calendar.js',
                 array(),
                 wp_get_theme()->get('Version'),
@@ -41,18 +48,10 @@ class Asset
             );
 
             wp_enqueue_style(
-                'marchebe-calendar',
+                'marchebe-calendar-css',
                 plugin_dir_url(__DIR__).'assets/calendar.css',
                 array(),
                 wp_get_theme()->get('Version')
-            );
-
-            wp_enqueue_script(
-                'marchebe-calendar-js',
-                plugin_dir_url(__DIR__).'assets/calendar.js',
-                array(),
-                wp_get_theme()->get('Version'),
-                true
             );
         }
     }
