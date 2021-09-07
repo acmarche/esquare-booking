@@ -3,6 +3,7 @@
 namespace AcMarche\Booking\Lib;
 
 use AcMarche\Booking\BookingJf;
+use AcMarche\Booking\Entity\EntryDay;
 
 class Shorcode
 {
@@ -11,34 +12,40 @@ class Shorcode
         add_shortcode('calendar_jf', function () {
             $dateProvider = new DateProvider();
             $dateSelected = new \DateTime();
+            $repository = new EntryRepository();
             $weeks = $dateProvider->weeksOfMonth($dateSelected);
-            $entries = $this->getEntries();
+            $monthEntries = $repository->getEntries();
+            $dataDays = [];
+
+            foreach ($weeks as $week) {
+                foreach ($week as $date) {
+                    $dataDay = new EntryDay($date);
+                    $entries = $this->extractByDate($date, $monthEntries);
+                    $dataDay->entries = $entries;
+                    $dataDays[$date->toDateString()] = $dataDay;
+                }
+            }
+
             $monthName = $dateProvider->monthName($dateSelected);
 
             return Twig::rendPage('_calendar.html.twig', [
                 'monthName' => $monthName,
                 'weeks' => $weeks,
                 'weekdays' => $dateProvider->weekDaysName(),
-                'entries' => $entries,
+                'dataDays' => $dataDays,
             ]);
         });
     }
 
-    private function getEntries(): array
+    private function extractByDate(\DateTimeInterface $dateTime, array $entries): array
     {
-        global $post;
-        $post_slug = $post->post_name;
-        $room = BookingJf::getRoomNumber($post_slug);
-        $repository = new EntryRepository();
-        try {
-            $json = $repository->getEntries($room);
-
-            return json_decode($json);
-
-        } catch (\Exception $e) {
-            wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
-
-            return [];
+        $data = [];
+        foreach ($entries as $entry) {
+            if ($entry->startTime === $dateTime->format('Y-m-d')) {
+                $data[] = $entry;
+            }
         }
+
+        return $data;
     }
 }

@@ -38,10 +38,23 @@
             <div class="cal-days">
                 {% for week in weeks %}
                     {% for day in week %}
-                        <button class="btn cal-btn" type="button">{{ day.day }}</button>
+                        {% set key = day.toDateString %}
+                        {% set data = dataDays[key] %} <!-- phpstorm -->
+                        {% if data.entries|length > 0 %}
+                            <button class="btn cal-btn bg-info"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#infoModal"
+                                    data-bs-day="{{ day.year }}-{{ day.month }}-{{ day.day }}">
+                                {{ day.day }}
+                            </button>
+                        {% else %}
+                            <button class="btn cal-btn" type="button">{{ day.day }}</button>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
+{% include '_modal.html.twig' %}

@@ -40,9 +40,7 @@ class Twig
             $environment->addExtension(new IntlExtension());
         }
 
-        $environment->addGlobal('template_directory', get_template_directory_uri());
-        $environment->addFunction(self::showTemplate());
-
+        $environment->addFunction(self::getEntries());
         return $environment;
     }
 
@@ -81,22 +79,16 @@ class Twig
         }
     }
 
-
-    protected static function showTemplate(): TwigFunction
+    private static function getEntries()
     {
         return new TwigFunction(
-            'showTemplate',
-            function (): string {
-                if (true === WP_DEBUG) {
-                    global $template;
+            'findEntries',
+            function (\DateTimeInterface $date): int {
+                $repository = new EntryRepository();
+                $entries = $repository->getEntries();
 
-                    return 'template: '.$template;
-                }
-
-                return '';
+                return count($entries);
             }
         );
     }
-
-
 }

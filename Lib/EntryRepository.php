@@ -2,6 +2,7 @@
 
 namespace AcMarche\Booking\Lib;
 
+use AcMarche\Booking\BookingJf;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -20,11 +21,29 @@ class EntryRepository
         $this->connect();
     }
 
+    public function getEntries(): array
+    {
+        global $post;
+        $post_slug = $post->post_name;
+        $room = BookingJf::getRoomNumber($post_slug);
+
+        try {
+            $json = $this->getRemoteEntries($room);
+
+            return json_decode($json);
+
+        } catch (\Exception $e) {
+            wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
+
+            return [];
+        }
+    }
+
     /**
      * @return string|null
      * @throws \Exception
      */
-    public function getEntries(int $room): ?string
+    public function getRemoteEntries(int $room): ?string
     {
         $params = ['room' => $room];
         try {
