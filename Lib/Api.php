@@ -24,14 +24,23 @@ class Api
             function () {
                 register_rest_route(
                     'booking',
-                    'entries/(?P<date>.*+)/(?P<slug>.*+)',
+                    'entries/(?P<date>[\w-]+)/(?P<slug>[\w-]+)',
                     [
                         'methods' => 'GET',
+                        'args' => array(
+                            'date' => array(
+                                'required' => true,
+                            ),
+                            'slug' => array(
+                                'required' => true,
+                            ),
+                        ),
                         'callback' => function ($request) {
                             $date = $request->get_param('date');
                             $slug = $request->get_param('slug');
                             $repository = new EntryRepository();
                             $entries = $repository->getEntriesByDay($date, $slug);
+                            var_dump($entries);
                         },
                     ]
                 );
