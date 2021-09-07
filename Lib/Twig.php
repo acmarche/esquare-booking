@@ -11,7 +11,6 @@ use Twig\Extension\DebugExtension;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
-use Twig\TwigFunction;
 
 class Twig
 {
@@ -40,7 +39,6 @@ class Twig
             $environment->addExtension(new IntlExtension());
         }
 
-        $environment->addFunction(self::getEntries());
         return $environment;
     }
 
@@ -77,18 +75,5 @@ class Twig
                 ]
             );
         }
-    }
-
-    private static function getEntries()
-    {
-        return new TwigFunction(
-            'findEntries',
-            function (\DateTimeInterface $date): int {
-                $repository = new EntryRepository();
-                $entries = $repository->getEntries();
-
-                return count($entries);
-            }
-        );
     }
 }

@@ -24,23 +24,24 @@ class Api
             function () {
                 register_rest_route(
                     'booking',
-                    'entries/(?P<date>[\w-]+)/(?P<slug>[\w-]+)',
+                    'entries/(?P<date>[\w-]+)/(?P<room>[\d]+)',
                     [
                         'methods' => 'GET',
                         'args' => array(
                             'date' => array(
                                 'required' => true,
                             ),
-                            'slug' => array(
+                            'room' => array(
                                 'required' => true,
                             ),
                         ),
                         'callback' => function ($request) {
                             $date = $request->get_param('date');
-                            $slug = $request->get_param('slug');
+                            $room = $request->get_param('room');
                             $repository = new EntryRepository();
-                            $entries = $repository->getEntriesByDay($date, $slug);
-                            var_dump($entries);
+                            $entries = $repository->getEntriesByDay($date, $room);
+
+                            return Twig::rendPage('_list.html.twig', ['entries' => $entries]);
                         },
                     ]
                 );

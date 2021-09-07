@@ -21,12 +21,8 @@ class EntryRepository
         $this->connect();
     }
 
-    public function getEntries(): array
+    public function getEntries(int $room): array
     {
-        global $post;
-        $post_slug = $post->post_name;
-        $room = BookingJf::getRoomNumber($post_slug);
-
         try {
             $json = $this->getRemoteEntries($room);
 
@@ -39,20 +35,19 @@ class EntryRepository
         }
     }
 
-    public function getEntriesByDay(string $date, string $slug): array
+    public function getEntriesByDay(string $date, int $room): array
     {
-        $room = BookingJf::getRoomNumber($slug);
-
         try {
-            $json = $this->getRemoteEntriesByDate($date, $room);
-
-            return json_decode($json);
+            if ($json = $this->getRemoteEntriesByDate($date, $room)) {
+                return json_decode($json);
+            }
 
         } catch (\Exception $e) {
             wp_mail('webmaster@marche.be', 'Esquare erreur agenda', $e->getMessage());
 
-            return [];
         }
+
+        return [];
     }
 
     /**

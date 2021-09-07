@@ -70,15 +70,11 @@
     });
 
     async function getEntries(date) {
-        const params = new URLSearchParams({
-            date: date,
-        });
-
-        const url = `wp-json/booking/entries/`;
-        const response = await fetch(`${url}?${params.toString()}`);
-        let data = await response.text();
-        console.log(data);
-        // document.querySelector("#classements").html(data);
+        let room = {{ room }};
+        const url = `/wp-json/booking/entries/${date}/${room}`;
+        const response = await fetch(url);
+        let dataJson = await response.text();
+        document.querySelector("#contentmodal").innerHTML = JSON.parse(dataJson);
     }
 
 </script>

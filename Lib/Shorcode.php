@@ -14,7 +14,10 @@ class Shorcode
             $dateSelected = new \DateTime();
             $repository = new EntryRepository();
             $weeks = $dateProvider->weeksOfMonth($dateSelected);
-            $monthEntries = $repository->getEntries();
+            global $post;
+            $post_slug = $post->post_name;
+            $room = BookingJf::getRoomNumber($post_slug);
+            $monthEntries = $repository->getEntries($room);
             $dataDays = [];
 
             foreach ($weeks as $week) {
@@ -33,6 +36,7 @@ class Shorcode
                 'weeks' => $weeks,
                 'weekdays' => $dateProvider->weekDaysName(),
                 'dataDays' => $dataDays,
+                'room' => $room,
             ]);
         });
     }
