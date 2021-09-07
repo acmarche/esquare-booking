@@ -40,7 +40,15 @@ class Api
                             $room = $request->get_param('room');
                             $repository = new EntryRepository();
                             $entries = $repository->getEntriesByDay($date, $room);
-
+                            array_map(function ($entry) {
+                                $entry->startTime = \DateTime::createFromFormat(
+                                    'Y-m-d H:i',
+                                    $entry->startTime
+                                )->format('H:i');
+                                $entry->endTime = \DateTime::createFromFormat('Y-m-d H:i', $entry->endTime)->format(
+                                    'H:i'
+                                );
+                            }, $entries);
                             return Twig::rendPage('_list.html.twig', ['entries' => $entries]);
                         },
                     ]
