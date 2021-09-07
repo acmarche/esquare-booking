@@ -5,15 +5,13 @@
                 <button class="btn cal-btn"
                         type="button"
                         id="btn-previous"
-                        data-month="{{ dateSelected|date('Y-m-d') }}"
-                        data-room="{{ room }}">
+                        onclick="getCalendar('{{ dateSelected|date('Y-m-d') }}', {{ room }}, 1)">
                     <span class="dashicons dashicons-arrow-left"></span>
                 </button>
                 <strong class="cal-month-name">{{ monthName }}</strong>
                 <button class="btn cal-btn" type="button"
                         id="btn-next"
-                        data-month="{{ dateSelected|date('Y-m-d') }}"
-                        data-room="{{ room }}">
+                        onclick="getCalendar('{{ dateSelected|date('Y-m-d') }}', {{ room }}, 2)">
                     <span class="dashicons dashicons-arrow-right"></span>
                 </button>
             </div>
