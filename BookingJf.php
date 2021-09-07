@@ -21,12 +21,12 @@ use AcMarche\Booking\Lib\Shorcode;
 class BookingJf
 {
     public static array $rooms = [
-        'mon-calendrier' => 1,
-        'box' => 1,
-        'createive' => 2,
-        'meeting' => 3,
-        'relax' => 4,
-        'digital' => 5,
+        3992 => 1,
+        2365 => 1,//box
+        2372 => 2,//creative
+        2593 => 3,//meeting
+        2375 => 4,//relax
+        2379 => 5,//digital
     ];
 
     public function __construct()
@@ -36,10 +36,10 @@ class BookingJf
         new Api();
     }
 
-    public static function getRoomNumber(string $slug): int
+    public static function getRoomNumber(int $postId): int
     {
-        if (isset(self::$rooms[$slug])) {
-            return self::$rooms[$slug];
+        if (isset(self::$rooms[$postId])) {
+            return self::$rooms[$postId];
         }
 
         return 0;
