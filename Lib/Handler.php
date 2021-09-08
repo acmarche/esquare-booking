@@ -8,18 +8,9 @@ class Handler
     {
         var_dump($data);
 
-        $content = Twig::rendPage('_mail.html.twig', [
-            'room' => $data['room'],
-            'nom' => $data['nom'],
-            'prenom' => $data['prenom'],
-            'email' => $data['email'],
-            'telephone' => $data['telephone'],
-            'informations' => $data['complements'],
-            'tva' => $data['tva'],
-            'horaires' => $data['horaires'],
-        ]);
-        $sujet = 'Votre demande de réservation pour LA BOX';
-        echo $content;
+        $mailer = new Mailer();
+        $email = $mailer->createEmail($data, 'Box');
+        $mailer->send($email);
     }
 
 }

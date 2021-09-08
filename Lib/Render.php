@@ -27,6 +27,7 @@ class Render
         return Twig::rendPage('booking.html.twig', [
             'calendar' => $calendar,
             'form' => $form,
+            'room' => $room,
         ]);
     }
 

@@ -1,11 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var btns = document.querySelectorAll('.bookingclick22');
-    Array.prototype.forEach.call(btns, function (el, i) {
-        el.addEventListener('click', () => {
-            console.log('click ' + el.dataset.day);
-          //  getEntries(el.dataset.day, el.dataset.room);
-        });
-    });
+    var hidden = document.querySelector('#entry_api_form_room');
+    hidden.value = document.querySelector('#entry_room').value;
 });
 
 async function getEntries(date, room) {

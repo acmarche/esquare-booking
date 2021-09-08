@@ -8,6 +8,8 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
+use Twig\Extra\CssInliner\CssInlinerExtension;
+use Twig\Extra\Inky\InkyExtension;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
@@ -22,6 +24,7 @@ class Twig
         }
 
         $loader = new FilesystemLoader($path);
+        $loader->addPath('vendor/symfony/twig-bridge/Resources/views/Email/','email');
 
         $environment = new Environment(
             $loader,
@@ -37,6 +40,8 @@ class Twig
             $environment->addExtension(new DebugExtension());
             $environment->addExtension(new StringExtension());
             $environment->addExtension(new IntlExtension());
+            $environment->addExtension(new InkyExtension());
+            $environment->addExtension(new CssInlinerExtension());
         }
 
         return $environment;
@@ -71,7 +76,7 @@ class Twig
             return $twig->render(
                 '_error_500.html.twig',
                 [
-
+                    'error' => $e->getMessage(),
                 ]
             );
         }
