@@ -10,13 +10,13 @@ class Shorcode
     {
         add_shortcode('calendar_jf', function () {
 
+            global $post;
             if (isset($_POST['entry_api_form'])) {
                 $data = $_POST['entry_api_form'];
                 $handler = new Handler();
-                $handler->handle($data);
+                $handler->handle($data, $post);
             }
 
-            global $post;
             $dateSelected = new \DateTime();
             $room = BookingJf::getRoomNumber($post->ID);
             $render = new Render();

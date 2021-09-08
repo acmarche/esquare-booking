@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     var hidden = document.querySelector('#entry_api_form_room');
-    hidden.value = document.querySelector('#entry_room').value;
+    hidden.value = document.querySelector('#entry_room').value;//set to form
 });
 
 async function getEntries(date, room) {
