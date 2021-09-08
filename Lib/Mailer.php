@@ -19,6 +19,9 @@ class Mailer
     public function createEmail(array $data, string $room, int $roomId, string $horaire): Email
     {
         $subject = 'Votre demande de réservation pour '.$room;
+        list($year, $month, $day) = explode('-', $data['jour']);
+        $jour = $day.'/'.$month.'/'.$year;
+
         $html = Twig::rendPage('_mail.html.twig', [
             'data' => $data,
             'room' => $room,
@@ -28,6 +31,7 @@ class Mailer
             'action_text' => 'Go',
             'exception' => null,
             'horaire' => $horaire,
+            'jour' => $jour,
         ]);
 
         return (new TemplatedEmail())
