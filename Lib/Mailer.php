@@ -16,7 +16,7 @@ class Mailer
         $this->mailer = Transport::fromDsn($_ENV['MAILER_DSN']);
     }
 
-    public function createEmail(array $data, string $room, int $roomId): Email
+    public function createEmail(array $data, string $room, int $roomId, string $horaire): Email
     {
         $subject = 'Votre demande de réservation pour '.$room;
         $html = Twig::rendPage('_mail.html.twig', [
@@ -27,6 +27,7 @@ class Mailer
             'action_url' => $_ENV['GRR_BOOKING'].'/id/'.$roomId,
             'action_text' => 'Go',
             'exception' => null,
+            'horaire' => $horaire,
         ]);
 
         return (new TemplatedEmail())

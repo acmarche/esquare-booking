@@ -12,8 +12,10 @@ class Handler
         dump($post);
 
         $roomId = BookingJf::getRoomNumber($post->ID);
+        $horaire = BookingJf::horaires[$data['horaires']];
+
         $mailer = new Mailer();
-        $email = $mailer->createEmail($data, $post->post_title, $roomId);
+        $email = $mailer->createEmail($data, $post->post_title, $roomId, $horaire);
         $mailer->send($email);
     }
 

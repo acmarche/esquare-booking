@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function getEntries(date, room) {
+
+    setDate(date);
+
     const url = `/wp-json/booking/entries/${date}/${room}`;
     const response = await fetch(url);
     let dataJson = await response.text();
@@ -15,4 +18,10 @@ async function getCalendar(date, room, action) {
     const response = await fetch(url);
     let dataJson = await response.text();
     document.querySelector("#booking").innerHTML = JSON.parse(dataJson);
+}
+
+function setDate(date) {
+    var fieldDate = document.querySelector('#entry_api_form_jour');
+    console.log(date);
+    fieldDate.value = date;
 }

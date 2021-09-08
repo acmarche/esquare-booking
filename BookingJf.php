@@ -20,6 +20,13 @@ use AcMarche\Booking\Lib\Shorcode;
 
 class BookingJf
 {
+    public const horaires = [
+        1 => '9h à 13h',
+        '9h à 17h',
+        '13h à 17h',
+        '18h à 22h',
+    ];
+
     public static array $rooms = [
         3992 => 1,
         2365 => 1,//box
@@ -27,13 +34,6 @@ class BookingJf
         2593 => 3,//meeting
         2375 => 4,//relax
         2379 => 5,//digital
-    ];
-
-    public static array $horaires = [
-        '9h à 13h' => 1,
-        '9h à 17h' => 2,
-        '13h à 17h' => 3,
-        '18h à 22h' => 4,
     ];
 
     public function __construct()
