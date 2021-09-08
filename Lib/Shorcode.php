@@ -11,8 +11,8 @@ class Shorcode
         add_shortcode('calendar_jf', function () {
 
             global $post;
-            if (isset($_POST['entry_api_form'])) {
-                $data = $_POST['entry_api_form'];
+            if (isset($_POST['booking_form'])) {
+                $data = $_POST['booking_form'];
                 $handler = new Handler();
                 $handler->handle($data, $post);
             }
